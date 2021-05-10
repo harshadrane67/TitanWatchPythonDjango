@@ -1,0 +1,148 @@
+{% extends "HomePage/base.html" %} 
+{% load crispy_forms_tags %} 
+{% load static %} 
+{% block content %}
+<main>
+  <!-- Hero Area Start -->
+  <div class="slider-area">
+    <div class="single-slider profile_background d-flex align-items-center">
+      <div class="container">
+        <div class="row">
+          <div class="col-xl-12">
+            <div class="hero-cap text-center">
+              <img class="profile-img" src="{{ user.profile.img.url }}" />
+              <h2>{{ user.first_name}} {{user.last_name}}</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Hero Area End-->
+  <!--================login_part Area =================-->
+  <section class="confirmation_part section_padding">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 col-lx-4">
+          <div class="single_confirmation_details">
+          <a href="{% url 'profile-update'%}" class="genric-btn primary-border circle">Update Profile</a>
+        </div>
+        </div>
+        <div class="col-lg-6 col-lx-4">
+          <div class="single_confirmation_details">
+          <a href="{% url 'profile-address-form' %}" class="genric-btn primary-border circle">+ New Address</a>
+        </div>
+        </div>
+        <div class="col-lg-6 col-lx-4">
+          <div class="single_confirmation_details">
+            <h4>Profile Information</h4>
+            <ul>
+              <li>
+                <p>Name</p><span>: {{ user.first_name}} {{user.last_name}}</span>
+              </li>
+              <li>
+                <p>Gender</p><span>: {{user.profile.gender}}</span>
+              </li>
+              <li>
+                <p>Email</p><span>:{{user.email}}</span>
+              </li>
+              <li>
+                <p>Mobile No.</p><span>: {{user.profile.phone_number}}</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        {% for add in address%}
+        {% if add.default %}
+        <div class="col-lg-6 col-lx-4">
+          <div class="single_confirmation_details">
+            <h4>{{add.type_add}}Default Address</h4>
+            <ul>
+              <li>
+                <p>Address</p><span>: {{add.address}}</span>
+              </li>
+              <li>
+                <p>Town</p><span>: {{add.town}}</span>
+              </li>
+              <li>
+                <p>City</p><span>: {{add.city}}</span>
+              </li>
+              <li>
+                <p>Pincode</p><span>: {{add.pin}}</span>
+              </li>
+              <li>
+                <p>State</p><span>: {{add.state}}</span>
+              </li>
+              <li>
+                <p>Default</p><span>: {{add.default}}</span>
+              </li>
+            </ul>
+            
+          </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+        <div class="col-lg-6 col-lx-4">
+          <div class="single_confirmation_details">
+          <span> </span>
+        </div>
+        </div>
+        <div class="col-lg-6 col-lx-4">
+          <div class="single_confirmation_details">
+          <a href="{% url 'profile-address' %}" class="genric-btn primary-border circle">Show All</a>
+        </div>
+        </div>
+      </div>
+      {% if empty %}
+      <h3>No Order History</h3>
+      {% else %}
+        <div class="cart_inner">
+          <div>
+            <h3>Order History</h3>
+          </div>
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Product</th>
+                  <th scope="col">Total Price</th>
+                  <th scope="col">Date Ordered</th>
+                  <th scope="col">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for order in orders%}
+                  <tr>
+                    <td>
+                      <div class="media">
+                        <div class="media-body">
+                          <p><b>Order Id :</b>{{order.id}}</p>
+                          {% for item in order.get_all_items %}
+                            <a href="{% url 'order-detail' order.id %}"><p>{{item.product.product.name }} (${{item.price}} X {{item.quantity}})</p></a>
+                          {% endfor %}
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <h5>$ {{order.get_total_price}}</h5>
+                    </td>
+                    <td>
+                      {{order.date_ordered}}
+                    </td>
+                    <td>
+                      <h5>{{order.shipping_client.shipping_status}}</h5>
+                    </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+            <div class="checkout_btn_inner float-right">
+              <a class="btn_1" href="#">Continue Shopping</a>
+            </div>
+        </div>
+      {% endif %}
+    </div>
+  </section>
+  <!--================login_part end =================-->
+</main>
+{% endblock content %}

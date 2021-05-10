@@ -1,0 +1,89 @@
+{% extends "HomePage/base.html"%}
+{% block content %}
+  <main>
+      <!-- Hero Area Start-->
+      <div class="slider-area ">
+          <div class="single-slider slider-height2 d-flex align-items-center">
+              <div class="container">
+                  <div class="row">
+                      <div class="col-xl-12">
+                          <div class="hero-cap text-center">
+                              <h2>Cart List</h2>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <!--================Cart Area =================-->
+      <section class="cart_area section_padding">
+        <div class="container">
+          <div class="cart_inner">
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Product</th>
+                    <th scope="col">Total Price</th>
+                    <th scope="col">Date Ordered</th>
+                    <th scope="col">Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for order in orders%}
+                  
+                    <tr>
+                      <td>
+                        <div class="media">
+                          <div class="media-body">
+                            <p><b>Order Id :</b>{{order.id}}</p>
+                            {% for item in order.get_all_items %}
+                              <a href="{% url 'order-detail' order.id %}"><p>{{item.product.product.name }} (${{item.price}} X {{item.quantity}})</p></a>
+                            {% endfor %}
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <h5>$ {{order.get_total_price}}</h5>
+                      </td>
+                      <td>
+                        {{order.date_ordered}}
+                      </td>
+                      <td>
+                        <h5>{{order.shipping_client.shipping_status}}</h5>
+                      </td>
+                    </tr>
+                  {% endfor %}
+                  <tr class="bottom_button">
+                    <td>
+                      <a class="btn_1" href="#">Update Cart</a>
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                      <div class="cupon_text float-right">
+                        <a class="btn_1" href="#">Close Coupon</a>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td>
+                      <h5>Subtotal</h5>
+                    </td>
+                    <td>
+                      <h5>$2160.00</h5>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="checkout_btn_inner float-right">
+                <a class="btn_1" href="#">Continue Shopping</a>
+              </div>
+          </div>
+          </div>
+      </section>
+      <!--================End Cart Area =================-->
+  </main>>
+{% endblock content %}

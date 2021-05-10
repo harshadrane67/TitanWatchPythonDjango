@@ -1,0 +1,98 @@
+{% extends "HomePage/base.html"%}
+{% load static %}
+{% block content %}
+  <main>
+      <!-- Hero Area Start-->
+      <div class="slider-area ">
+          <div class="single-slider slider-height2 d-flex align-items-center">
+              <div class="container">
+                  <div class="row">
+                      <div class="col-xl-12">
+                          <div class="hero-cap text-center">
+                              <h2>Cart List</h2>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <!--================Cart Area =================-->
+      <section class="cart_area section_padding">
+        <div class="container">
+          <div class="cart_inner">
+            {% if empty %}
+              <h3>Cart is empty</h3>
+              <div class="table-responsive">
+              {% else %}
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th scope="col">Product</th>
+                      <th scope="col">Price</th>
+                      <th scope="col">Quantity</th>
+                      <th scope="col">Total</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for item in order.get_all_items %}
+                      <tr>
+                        <td>
+                          <div class="media">
+                            <div class="d-flex">
+                              <img src="{{ item.product.product.img.url }}" alt="" />
+                            </div>
+                            <div class="media-body">
+                              <p>{{ item.product.product.name }}</p>
+                            </div>
+                          </div>
+                        </td>
+                        {% if item.product.product.offer %}
+                          <td>
+                            <h5>${{ item.product.product.offer_val }}</h5>
+                          </td>
+                        {% else %}
+                          <td>
+                            <h5>${{ item.product.product.price }}</h5>
+                          </td>
+                        {% endif%}
+                        <td>
+                          <div class="product_count">
+                            <span class="input-number-decrement"> <i class="ti-minus"></i></span>
+                            <input class="input-number" type="text" value="1" min="0" max="10">
+                            <span class="input-number-increment"> <i class="ti-plus"></i></span>
+                          </div>
+                        </td>
+                        <td>
+                          <h5>${{ item.price }}</h5>
+                        </td>
+                        <td>
+                          <a href="{% url 'delete-from-cart' item.id %}"><img src="{% static 'assets/img/logo/trash.png' %}"></a>
+                        </td>
+                      </tr>
+                    {% endfor %}
+                    <tr>
+                      <td></td>
+                      <td></td>
+                      <td>
+                        <h5>Subtotal</h5>
+                      </td>
+                      <td>
+                        <h5>${{ order.get_total_price }}</h5>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              {%endif%}
+                <div class="checkout_btn_inner float-right">
+                  <a class="btn_1" href="{% url 'home' %}">Continue Shopping</a>
+                  {% if not empty %}
+                    <a class="btn_1 checkout_btn_1" href="{% url 'select-address' %}">Proceed to checkout</a>
+                  {%endif%}
+                </div>
+              </div>
+            
+          </div>
+      </section>
+      <!--================End Cart Area =================-->
+  </main>>
+{% endblock content %}

@@ -1,0 +1,60 @@
+{% extends "HomePage/base.html" %} 
+{% load crispy_forms_tags %} 
+{% load static %} 
+{% block content %}
+<main>
+  <!-- Hero Area Start -->
+  <div class="slider-area">
+    <div class="single-slider profile_background d-flex align-items-center">
+      <div class="container">
+        <div class="row">
+          <div class="col-xl-12">
+            <div class="hero-cap text-center">
+              <img class="profile-img" src="{{ user.profile.img.url }}" />
+              <h2>{{ user.first_name}} {{user.last_name}}</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Hero Area End-->
+  <!--================login_part Area =================-->
+  <section class="confirmation_part section_padding">
+    <div class="container">
+      <div class="row">
+        {% for add in address%}
+        <div class="col-lg-6 col-lx-4">
+          <div class="single_confirmation_details">
+            <h4>{{add.type_add}} Address</h4>
+            <ul>
+              <li>
+                <p>Address</p><span>: {{add.address}}</span>
+              </li>
+              <li>
+                <p>Town</p><span>: {{add.town}}</span>
+              </li>
+              <li>
+                <p>City</p><span>: {{add.city}}</span>
+              </li>
+              <li>
+                <p>Pincode</p><span>: {{add.pin}}</span>
+              </li>
+              <li>
+                <p>State</p><span>: {{add.state}}</span>
+              </li>
+              <li>
+                <p>Default</p><span>: {{add.default}}</span>
+              </li>
+            </ul>
+            <a href="{% url 'profile-address-delete' add.pk %}" class="genric-btn danger circle">Delete</a>
+            <a href="{% url 'profile-address-update' add.pk %}" class="genric-btn info circle">Update</a>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+  <!--================login_part end =================-->
+</main>
+{% endblock content %}
